@@ -45,7 +45,7 @@ export default function SignUp() {
         <input
           type="text"
           placeholder="username"
-          className="border p-3 rounded-lg"
+          className="border p-3 rounded-lg focus:outline-none"
           id="username"
           onChange={handleChange}
           required={true}
@@ -53,7 +53,7 @@ export default function SignUp() {
         <input
           type="email"
           placeholder="email"
-          className="border p-3 rounded-lg"
+          className="border p-3 rounded-lg focus:outline-none"
           id="email"
           onChange={handleChange}
           required={true}
@@ -61,7 +61,7 @@ export default function SignUp() {
         <input
           type="password"
           placeholder="password"
-          className="border p-3 rounded-lg"
+          className="border p-3 rounded-lg focus:outline-none"
           id="password"
           onChange={handleChange}
           required={true}
