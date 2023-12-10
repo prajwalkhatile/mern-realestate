@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
-export default function SignUp() {
+export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -15,7 +22,7 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -26,16 +33,13 @@ export default function SignUp() {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-        setLoading(false);
-        setError(data.message);
+        dispatch(signInFailure(data.message));
         return;
       }
-      setLoading(false);
-      setError(null);
+      dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
   return (
@@ -48,7 +52,6 @@ export default function SignUp() {
           className="border p-3 rounded-lg focus:outline-none"
           id="email"
           onChange={handleChange}
-          required={true}
         />
         <input
           type="password"
@@ -56,7 +59,6 @@ export default function SignUp() {
           className="border p-3 rounded-lg focus:outline-none"
           id="password"
           onChange={handleChange}
-          required={true}
         />
 
         <button
@@ -65,9 +67,10 @@ export default function SignUp() {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
-        <p>Dont Have an account?</p>
+        <p>Dont have an account?</p>
         <Link to={"/sign-up"}>
           <span className="text-blue-700">Sign up</span>
         </Link>
