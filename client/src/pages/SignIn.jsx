@@ -52,6 +52,7 @@ export default function SignIn() {
           className="border p-3 rounded-lg focus:outline-none"
           id="email"
           onChange={handleChange}
+          required={true}
         />
         <input
           type="password"
@@ -59,6 +60,7 @@ export default function SignIn() {
           className="border p-3 rounded-lg focus:outline-none"
           id="password"
           onChange={handleChange}
+          required={true}
         />
 
         <button
